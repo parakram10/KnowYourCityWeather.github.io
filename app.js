@@ -59,7 +59,7 @@ function searchWeather1(){
 // console.log(cityName);
 
 function apiCall(city){
-    fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=14`).then((jsonData)=>{
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=14`).then((jsonData)=>{
         console.log(jsonData);
         return jsonData.json();
         }).then((actualData)=>{

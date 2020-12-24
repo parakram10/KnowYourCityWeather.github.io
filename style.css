@@ -9,6 +9,7 @@ body{
 }
 
 .main {
+    display: none;
     position: relative;
     height: 100vh;
 }
@@ -711,4 +712,51 @@ input::placeholder{
 .in1{
     color: white;
     border-color: white;
+}
+
+
+.main3{
+    position: absolute;
+    top: 35%;
+    left: 38%;
+}
+
+.userInput{
+    background-color: coral;
+    padding: 20px;
+    text-align: center;
+    border-radius: 20px;
+    width: 400px;
+}
+
+.userInput p{
+    color: black;
+    font-size: 20px;
+}
+
+#userinput{
+    margin-top: 20px;
+    border: none;
+    background: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    padding: 0 3px;
+    text-align: center;
+    color: black;
+}
+
+#userinput::placeholder{
+    color: black;
+}
+
+.submitfirst{
+    padding: 10px;
+    border: 4px solid cornflowerblue;
+    font-weight: bold;
+    width: 100px;
+    margin-top: 20px;
+    border-radius: 20px;
+    margin-left: 130px;
+    color: black;
+    cursor: pointer;
 }

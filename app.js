@@ -1,8 +1,54 @@
 const apiKey = "b09f19893a914134b6e114730202012";
+var currCityName;
 
-var currCityName = "Hardoi";
+let main3 = document.querySelector(".main3");
 
-apiCall(currCityName);
+let main = document.querySelector(".main");
+
+var pattern = "/^(0|[1-9][0-9]{0,2}(?:(,[0-9]{3})*|[0-9]*))(\.[0-9]+){0,1}$/";
+
+function isNumeric(string) {
+    for (let i = 0; i < pattern.length; i++) {
+        if (string.indexOf(pattern[i]) > -1)
+            return true;
+    }
+    return false;
+}
+
+
+var specialChars = "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=";
+function checkForSpecialChar(string) {
+    for (i = 0; i < specialChars.length; i++) {
+        if (string.indexOf(specialChars[i]) > -1) {
+            return true;
+        }
+    }
+    return false;
+}
+
+let userinput = document.getElementById('userinput');
+
+let submitInput = document.querySelector('.submitfirst');
+
+submitInput.addEventListener('click', submitCity);
+
+function submitCity() {
+
+    let val = userinput.value;
+
+    if(val == "") alert(`City name can not be empty!!`);
+    else if (isNumeric(val) || checkForSpecialChar(val)) {
+        alert(`${val} is invalid city name!!`);
+    } else {
+        main3.style.display = "none";
+        main.style.display = "block";
+        apiCall(val);
+    }
+}
+
+
+
+
 
 let apiUsingCity = document.querySelector('.apiUsingCity');
 apiUsingCity.innerText = currCityName;
@@ -39,30 +85,30 @@ let sunsetdata = document.getElementById('sunsetdata');
 
 let in1 = document.querySelector(".in1");
 
-var Regex=/^[^a-zA-Z]*$/;
+var Regex = /^[^a-zA-Z]*$/;
 
 search1.addEventListener('click', searchWeather1);
 
-function searchWeather1(){
+function searchWeather1() {
 
     let cityName = in1.value;
 
     console.log(cityName);
 
-    if(cityName === ""){
+    if (cityName === "") {
         alert("City name can not be empty!!");
-    }else{
+    } else {
         apiCall(cityName);
     }
 }
 
 // console.log(cityName);
 
-function apiCall(city){
-    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=14`).then((jsonData)=>{
+function apiCall(city) {
+    fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=14`).then((jsonData) => {
         console.log(jsonData);
         return jsonData.json();
-        }).then((actualData)=>{
+    }).then((actualData) => {
         console.log(actualData);
         let humid = actualData.current.humidity;
         let windspeed = actualData.current.wind_kph;
@@ -75,33 +121,33 @@ function apiCall(city){
         sunsetdata.innerText = actualData.forecast.forecastday[0].astro.sunset;
 
         apiUsingCity.innerText = city;
-        for(let i=0;i<24;i++){
+        for (let i = 0; i < 24; i++) {
             let detail = actualData.forecast.forecastday[0].hour[i];
             let h = `0${i}:00`;
-            if(i>9) h = `${i}:00`;
-            document.getElementById(`day${i+1}`).innerHTML = h;
+            if (i > 9) h = `${i}:00`;
+            document.getElementById(`day${i + 1}`).innerHTML = h;
 
             let temp = detail.temp_c;
 
-            document.getElementById(`det${i+1}`).innerHTML = `${temp}°C`;
+            document.getElementById(`det${i + 1}`).innerHTML = `${temp}°C`;
 
             let condition = detail.condition.icon;
 
-            document.getElementById(`imgwea${i+1}`).src = condition;
+            document.getElementById(`imgwea${i + 1}`).src = condition;
 
             let imgWeather = actualData.current.condition.text;
 
 
             let imgLink;
 
-            if(imgWeather == "Clear") imgLink = `img/Clear.png`;
-            else if(imgWeather == "Cloudy") imgLink = `img/Cloudy.png`;
-            else if(imgWeather == "Rain") imgLink = `img/Rain.png`;
-            else if(imgWeather == "Storm") imgLink = `img/Storm.png`;
-            else if(imgWeather == "Sunny") imgLink = `img/Sunny.png`;
-            else if(imgWeather == "Mist") imgLink = `img/Mist.png`;
-            else if(imgWeather == "Fog") imgLink = `img/Fog.png`;
-            else if(imgWeather == "Partly cloudy") imgLink = `img/Partly cloudy.png`;
+            if (imgWeather == "Clear") imgLink = `img/Clear.png`;
+            else if (imgWeather == "Cloudy") imgLink = `img/Cloudy.png`;
+            else if (imgWeather == "Rain") imgLink = `img/Rain.png`;
+            else if (imgWeather == "Storm") imgLink = `img/Storm.png`;
+            else if (imgWeather == "Sunny") imgLink = `img/Sunny.png`;
+            else if (imgWeather == "Mist") imgLink = `img/Mist.png`;
+            else if (imgWeather == "Fog") imgLink = `img/Fog.png`;
+            else if (imgWeather == "Partly cloudy") imgLink = `img/Partly cloudy.png`;
             else imgLink = `img/unknown.png`;
 
 
@@ -114,25 +160,25 @@ function apiCall(city){
             let imgData = nextDay.condition.text;
 
             let k;
-            if(imgData == "Clear"){
+            if (imgData == "Clear") {
                 k = `img/6.png`;
-            }else if(imgData == "Partly cloudy"){
+            } else if (imgData == "Partly cloudy") {
                 k = `img/5.png`;
-            }else if(imgData == "Cloudy"){
+            } else if (imgData == "Cloudy") {
                 k = `img/5.png`;
-            }else if(imgData == "Rain"){
+            } else if (imgData == "Rain") {
                 k = `img/5.png`;
-            }else if(imgData == "Sunny"){
+            } else if (imgData == "Sunny") {
                 k = `img/3.png`;
-            }else{
+            } else {
                 k = `img/1.png`;
             }
-            
+
 
 
             let nextDATE = nextDay.time;
 
-            nextDATE = nextDATE.substring(0,nextDATE.indexOf(" "));
+            nextDATE = nextDATE.substring(0, nextDATE.indexOf(" "));
 
             nextDate.innerText = nextDATE;
 
@@ -145,29 +191,29 @@ function apiCall(city){
             <p class="weathertype"><img src="${k}" alt=""></p>
             </div>`;
 
-    
+
 
             let nextnextDay = actualData.forecast.forecastday[2].hour[i];
 
             let imgData1 = nextDay.condition.text;
             let k1;
-            if(imgData1 == "Clear"){
+            if (imgData1 == "Clear") {
                 k1 = `img/1.png`;
-            }else if(imgData1 == "Partly Cloudy"){
+            } else if (imgData1 == "Partly Cloudy") {
                 k1 = `img/2.png`;
-            }else if(imgData1 == "Cloudy"){
+            } else if (imgData1 == "Cloudy") {
                 k1 = `img/3.png`;
-            }else if(imgData1 == "Rain"){
+            } else if (imgData1 == "Rain") {
                 k1 = `img/4.png`;
-            }else if(imgData1 == "Sunny"){
+            } else if (imgData1 == "Sunny") {
                 k1 = `img/5.png`;
-            }else{
+            } else {
                 k1 = `img/6.png`;
             }
 
             let nextnextDATE = nextnextDay.time;
 
-            nextnextDATE = nextnextDATE.substring(0,nextnextDATE.indexOf(" "));
+            nextnextDATE = nextnextDATE.substring(0, nextnextDATE.indexOf(" "));
 
             nextnextDate.innerText = nextnextDATE;
 
@@ -178,15 +224,16 @@ function apiCall(city){
             <p class="weathertype"><img src="${k1}" alt=""></p>
             </div>`;
 
-        }}).catch((err)=>{
-            console.log(err);
-            alert("Please enter a valid City Name");
-            // location.reload();
-        });
+        }
+    }).catch((err) => {
+        console.log(err);
+        alert("Please enter a valid City Name");
+        // location.reload();
+    });
 }
 
 
-nextDate.addEventListener('click',()=>{
+nextDate.addEventListener('click', () => {
     detail3.style.display = "none";
     detail2.style.display = "block";
     nextDate.style.borderBottom = "1px solid white";
@@ -194,7 +241,7 @@ nextDate.addEventListener('click',()=>{
 })
 
 
-nextnextDate.addEventListener('click',()=>{
+nextnextDate.addEventListener('click', () => {
     detail2.style.display = "none";
     detail3.style.display = "block";
     nextnextDate.style.borderBottom = "1px solid white";
